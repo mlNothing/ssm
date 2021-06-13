@@ -1,0 +1,175 @@
+CREATE TABLE product(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	productNum VARCHAR(50) NOT NULL ,
+	productName VARCHAR(50),
+	cityName VARCHAR(50),
+	DepartureTime DATE,
+	productPrice DOUBLE,
+	productDesc VARCHAR(500),
+	productStatus INT,
+	CONSTRAINT product UNIQUE (id,productNum)
+)
+
+INSERT INTO product VALUES(NULL,'lml01','北京三日游','北京','2018-01-11 10:00:00',1200.00,'魔都我来了',0)
+
+INSERT INTO product VALUES(NULL,'lml02','南京三日游','南京','2018-01-11 10:00:00',1300.00,'风景很不错',0)
+INSERT INTO product VALUES(NULL,'lml03','长沙三日游','长沙','2018-01-11 10:00:00',1400.00,'好吃噢',1)
+INSERT INTO product VALUES(NULL,'lml04','上海三日游','上海','2018-01-11 10:00:00',1500.00,'不错噢',0)
+INSERT INTO product VALUES(NULL,'lml05','东京三日游','东京','2018-01-11 10:00:00',1600.00,'我来了',0)
+INSERT INTO product VALUES(NULL,'lml06','广州三日游','广州','2018-01-11 10:00:00',1700.00,'广州我来了',1)
+INSERT INTO product VALUES(NULL,'lml01','北京三日游','北京','2018-01-11 10:00:00',1200.00,'魔都我来了',0)
+
+INSERT INTO product VALUES(NULL,'lml02','南京三日游','南京','2018-01-11 10:00:00',1300.00,'风景很不错',0)
+INSERT INTO product VALUES(NULL,'lml03','长沙三日游','长沙','2018-01-11 10:00:00',1400.00,'好吃噢',1)
+INSERT INTO product VALUES(NULL,'lml04','上海三日游','上海','2018-01-11 10:00:00',1500.00,'不错噢',0)
+INSERT INTO product VALUES(NULL,'lml05','东京三日游','东京','2018-01-11 10:00:00',1600.00,'我来了',0)
+INSERT INTO product VALUES(NULL,'lml06','广州三日游','广州','2018-01-11 10:00:00',1700.00,'广州我来了',1)
+SELECT *FROM product
+INSERT INTO  product
+(productNum,productName,cityName,DepartureTime,productPrice,productDesc,productStatus) 
+VALUES('lml06','广州三日游','广州','2018-01-11 10:00:00',1700.00,'广州我来了',1)
+
+
+CREATE TABLE member(
+id INT PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(20),
+nickname VARCHAR(20),
+phoneNum VARCHAR(20),
+email VARCHAR(20)
+)
+
+DROP TABLE orders
+CREATE TABLE orders(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	orderNum VARCHAR(50) NOT NULL UNIQUE,
+	orderTime DATETIME,
+	peopleCount INT,
+	oderDesc VARCHAR(50),
+	payType INT,
+	orderStatus INT,
+	productId INT,
+	memberId INT,
+	CONSTRAINT od_pro FOREIGN KEY(productId) REFERENCES product(id),
+	CONSTRAINT od_me FOREIGN KEY(memberId) REFERENCES member(id)
+)
+
+SELECT *FROM od_pro
+INSERT INTO orders VALUES (NULL,'123a1','2019-01-11 10:00:00',3,'很不错',0,1,1,1)
+INSERT INTO orders VALUES (NULL,'123l1','2019-01-11 10:00:00',3,'很不错',0,2,2,1)
+
+
+INSERT INTO orders VALUES (NULL,'123a1','2019-01-11 10:00:00',3,'很不错',0,1,1,1)
+
+
+
+INSERT INTO orders VALUES (NULL,'123a1','2019-01-11 10:00:00',3,'很不错',0,1,1,1)
+
+
+CREATE TABLE traveller(
+id INT PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(20),
+sex VARCHAR(20),
+phoneNum VARCHAR(20),
+credentialsType INT,
+credentialsNum VARCHAR(50),
+travellerType INT
+)
+
+INSERT INTO TRAVELLER (id, NAME, sex, phonenum, credentialstype, credentialsnum, travellertype)
+VALUES (NULL, '张龙', '男', '13333333333', 0,
+'123456789009876543', 0);
+INSERT INTO TRAVELLER (id, NAME, sex, phonenum, credentialstype, credentialsnum, travellertype)
+VALUES (NULL, '张小龙', '男', '15555555555', 0,
+'987654321123456789', 1);
+
+
+SELECT *FROM ORDERS
+SELECT *FROM product WHERE id =1
+
+CREATE TABLE order_traveller(
+orderId INT,
+travellerId INT,
+PRIMARY KEY (orderId,travellerId),
+FOREIGN KEY (orderId) REFERENCES orders(id),
+FOREIGN KEY (travellerId) REFERENCES traveller(id)
+)
+
+
+SELECT travellerId FROM order_traveller  WHERE orderId =5
+
+SELECT *FROM traveller WHERE id IN(SELECT travellerId FROM order_traveller  WHERE orderId =8)
+SELECT *FROM member
+
+`orders``orders`
+SELECT *FROM order_traveller 
+
+
+SELECT *FROM orders WHERE id=8
+
+CREATE TABLE users(
+id INT  PRIMARY KEY AUTO_INCREMENT,
+email VARCHAR(50) UNIQUE NOT NULL,
+username VARCHAR(50),
+PASSWORD VARCHAR(50),
+phoneNum VARCHAR(20),
+STATUS INT
+)
+
+CREATE TABLE role(
+id INT  PRIMARY KEY AUTO_INCREMENT,
+roleName VARCHAR(50) ,
+roleDesc VARCHAR(50)
+)
+
+
+CREATE TABLE users_role(
+userId INT,
+roleId INT,
+PRIMARY KEY(userId,roleId),
+FOREIGN KEY (userId) REFERENCES users(id),
+FOREIGN KEY (roleId) REFERENCES role(id)
+)DEFAULT CHARSET=utf8;
+
+CREATE TABLE permission(
+id INT  PRIMARY KEY AUTO_INCREMENT,
+permissionName VARCHAR(50) ,
+url VARCHAR(50)
+)
+
+CREATE TABLE role_permission(
+permissionId INT,
+roleId INT,
+PRIMARY KEY(permissionId,roleId),
+FOREIGN KEY (permissionId) REFERENCES permission(id),
+FOREIGN KEY (roleId) REFERENCES role(id)
+)
+
+
+SELECT *FROM users`role``users_role``role`
+
+SELECT *FROM role WHERE id IN(SELECT roleId FROM users_ROLE WHERE  userID =6)
+
+SELECT *FROM permission WHERE id IN(SELECT permissionId FROM role_permission WHERE  roleId=1)
+INSERT INTO users(username,PASSWORD,email,phoneNum,STATUS) VALUES('马儿扎哈','456','000@qq.com',12,1)
+
+SELECT *FROM role WHERE id=6
+
+INSERT INTO role(roleName,roleDesc) VALUES ('u','vip') ;
+
+
+
+SELECT *FROM role WHERE id NOT IN(SELECT roleId FROM users_ROLE WHERE  userId=6)
+
+
+
+
+CREATE TABLE sysLog(
+id INT  PRIMARY KEY AUTO_INCREMENT,
+permissionName VARCHAR(50) ,
+visitTime t,
+username VARCHAR(50),
+ip VARCHAR(30),
+url VARCHAR(50),
+executionTime INT,
+method VARCHAR(200)
+)
